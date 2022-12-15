@@ -4,17 +4,44 @@
 //print_r($_FILES);
 $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
 $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
-$txtCantidad=(isset($_POST['txtCantidad']))?$_POST['txtCantidad']:"";
+$txtCategoria=(isset($_POST['txtCategoria']))?$_POST['txtCategoria']:"";
+$txtDescripcion=(isset($_POST['txtDescripcion']))?$_POST['txtDescripcion']:"";
 $txtPrecio=(isset($_POST['txtPrecio']))?$_POST['txtPrecio']:"";
 $txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
 $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
-echo $txtID. "<br/>";
-echo $txtNombre. "<br/>";
-echo $txtCantidad. "<br/>";
-echo $txtPrecio. "<br/>";
-echo $txtImagen. "<br/>";
-echo $accion. "<br/>";
+//echo $txtID. "<br/>";
+//echo $txtNombre. "<br/>";
+//echo $txtDescripcion. "<br/>";
+//echo $txtCategoria. "<br/>";
+//echo $txtPrecio. "<br/>";
+//echo $txtImagen. "<br/>";
+//echo $accion. "<br/>";
+
+include("../config/bd.php"); 
+
+switch($accion){
+
+    
+    case "Agregar";
+        //$sentenciaSQL= $conexion->prepare("INSERT INTO `videojuegos` (`id`, `nombre`, `categoria`, `descripcion`, `precio`, `imagen`) VALUES (NULL, 'Cyberpunk 2077', 'Accion', 'ompra Cyberpunk 2077 key y sumérgete en un mundo abierto donde serás capaz de explorar Night City: una enorme, distópica metrópolis, donde todos están obsesionados con tecnología sci-fi y modificación corporales. Esta experiencia RPG de CD Project RED te dará los controles de V, una absoluta bestia humana, quién (como muchos otros) está obsesionado con adquirir un implante en especial, uno que otorga inmortalidad.', '34.99', 'imagen.jpg');");
+        $sentenciaSQL= $conexion->prepare("INSERT INTO videojuegos (nombre, categoria, descripcion, precio, imagen) VALUES (:nombre,:categoria,:descripcion,:precio,:imagen);");
+        $sentenciaSQL->bindParam(':nombre',$txtNombre);
+        $sentenciaSQL->bindParam(':categoria',$txtCategoria);
+        $sentenciaSQL->bindParam(':descripcion',$txtDescripcion);
+        $sentenciaSQL->bindParam(':precio',$txtPrecio);
+        $sentenciaSQL->bindParam(':imagen',$txtImagen);
+        $sentenciaSQL->execute();
+        //echo "Presionado boton agregar";
+        break;
+    case "Modificar";
+        echo "Presionado boton modificar";
+        break;
+    case "Cancelar";
+        echo "Presionado boton cancelar";
+        break;
+
+}
 ?>
 
 <div class="col-md-5">
@@ -37,8 +64,13 @@ echo $accion. "<br/>";
             </div>
 
             <div class = "form-group">
-                <label for="txtCantidad">Cantidad:</label>
-                <input type="text" class="form-control" name="txtCantidad" id="txtCantidad"  placeholder="Cantidad del producto">
+                <label for="txtCategoria">Categoria:</label>
+                <input type="text" class="form-control" name="txtCategoria" id="txtCategoria"  placeholder="Categoria del producto">
+            </div>
+
+            <div class = "form-group">
+                <label for="txtDescripcion">Descripcion:</label>
+                <input type="text" class="form-control" name="txtDescripcion" id="txtDescripcion"  placeholder="Descripcion del producto">
             </div>
 
             <div class = "form-group">
@@ -72,8 +104,9 @@ echo $accion. "<br/>";
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Descripcion</th>
                 <th>Precio</th>
-                <th>Cantidad</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
 
@@ -84,8 +117,9 @@ echo $accion. "<br/>";
             <tr>
                 <td>1</td>
                 <td>high on life</td>
+                <td>shotter</td>
+                <td>descripcion increible</td>
                 <td>40€</td>
-                <td>1</td>
                 <td>hihgonlife.jpg</td>
                 <td>Seleccionar | Borrar</td>
             </tr>
