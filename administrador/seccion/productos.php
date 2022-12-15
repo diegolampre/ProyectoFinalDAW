@@ -21,8 +21,6 @@ $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 include("../config/bd.php"); 
 
 switch($accion){
-
-    
     case "Agregar";
         //$sentenciaSQL= $conexion->prepare("INSERT INTO `videojuegos` (`id`, `nombre`, `categoria`, `descripcion`, `precio`, `imagen`) VALUES (NULL, 'Cyberpunk 2077', 'Accion', 'ompra Cyberpunk 2077 key y sumérgete en un mundo abierto donde serás capaz de explorar Night City: una enorme, distópica metrópolis, donde todos están obsesionados con tecnología sci-fi y modificación corporales. Esta experiencia RPG de CD Project RED te dará los controles de V, una absoluta bestia humana, quién (como muchos otros) está obsesionado con adquirir un implante en especial, uno que otorga inmortalidad.', '34.99', 'imagen.jpg');");
         $sentenciaSQL= $conexion->prepare("INSERT INTO videojuegos (nombre, categoria, descripcion, precio, imagen) VALUES (:nombre,:categoria,:descripcion,:precio,:imagen);");
@@ -40,8 +38,12 @@ switch($accion){
     case "Cancelar";
         echo "Presionado boton cancelar";
         break;
-
 }
+
+$sentenciaSQL = $conexion->prepare("SELECT * FROM videojuegos");
+$sentenciaSQL->execute();
+$listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <div class="col-md-5">
@@ -113,16 +115,17 @@ switch($accion){
             </tr>
         </thead>
         <tbody>
-
+            <?php foreach($listaVideojuegos as $videojuego) { ?>
             <tr>
-                <td>1</td>
-                <td>high on life</td>
-                <td>shotter</td>
-                <td>descripcion increible</td>
-                <td>40€</td>
-                <td>hihgonlife.jpg</td>
+                <td><?php echo $videojuego['id'];?></td>
+                <td><?php echo $videojuego['nombre'];?></td>
+                <td><?php echo $videojuego['categoria'];?></td>
+                <td><?php echo $videojuego['descripcion'];?></td>
+                <td><?php echo $videojuego['precio'];?></td>
+                <td><?php echo $videojuego['imagen'];?></td>
                 <td>Seleccionar | Borrar</td>
             </tr>
+            <?php } ?>
 
         </tbody>
     </table>
