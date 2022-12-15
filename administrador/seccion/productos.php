@@ -28,7 +28,17 @@ switch($accion){
         $sentenciaSQL->bindParam(':categoria',$txtCategoria);
         $sentenciaSQL->bindParam(':descripcion',$txtDescripcion);
         $sentenciaSQL->bindParam(':precio',$txtPrecio);
-        $sentenciaSQL->bindParam(':imagen',$txtImagen);
+
+        $fecha = new DateTime();
+        $nombreArchivo=($txtImagen!="")?$fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
+
+        $tmpImagen = $_FILES["txtImagen"]["tmp_name"];
+
+        if($tmpImagen!=""){
+            move_uploaded_file($tmpImagen,"../../img/".$nombreArchivo);
+        }
+
+        $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
         $sentenciaSQL->execute();
         //echo "Presionado boton agregar";
         break;
@@ -59,13 +69,32 @@ switch($accion){
 
         //imagen
         if($txtImagen!=""){
+            $fecha = new DateTime();
+            $nombreArchivo=($txtImagen!="")?$fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
+            $tmpImagen = $_FILES["txtImagen"]["tmp_name"];
+
+            move_uploaded_file($tmpImagen,"../../img/".$nombreArchivo);
+
+            $sentenciaSQL = $conexion->prepare("SELECT imagen FROM videojuegos WHERE id=:id");
+            $sentenciaSQL->bindParam(':id',$txtID);
+            $sentenciaSQL->execute();
+            $videojuego=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+    
+            if(isset($videojuego["imagen"]) &&($videojuego["imagen"]!="imagen.jpg")){
+    
+                if(file_exists("../../img/".$videojuego["imagen"])){
+    
+                    unlink("../../img/".$videojuego["imagen"]);
+                }
+            }
+
             $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET imagen=:imagen WHERE id=:id");
             $sentenciaSQL->bindParam(':id',$txtID);
-            $sentenciaSQL->bindParam(':imagen',$txtImagen);
+            $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
             $sentenciaSQL->execute();
         }
 
-        echo "Presionado boton modificar";
+        //echo "Presionado boton modificar";
         break;
 
     case "Cancelar";
@@ -89,6 +118,19 @@ switch($accion){
         break;
 
     case "Borrar";
+        $sentenciaSQL = $conexion->prepare("SELECT imagen FROM videojuegos WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->execute();
+        $videojuego=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+        if(isset($videojuego["imagen"]) &&($videojuego["imagen"]!="imagen.jpg")){
+
+            if(file_exists("../../img/".$videojuego["imagen"])){
+
+                unlink("../../img/".$videojuego["imagen"]);
+            }
+        }
+
         $sentenciaSQL = $conexion->prepare("DELETE FROM videojuegos WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
@@ -141,6 +183,12 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <label for="txtImagen">Imagen;</label>
 
                 <?php echo $txtImagen;?>
+                <br/>
+                <?php if($txtImagen!=""){ ?>
+
+                    <img src="../../img/<?php echo $txtImagen;?> width="50" alt="">
+
+                <?php } ?>
                 
                 <input type="file" class="form-control" name="txtImagen" id="txtImagen">
             </div>
@@ -182,9 +230,7 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $videojuego['categoria'];?></td>
                 <td><?php echo $videojuego['descripcion'];?></td>
                 <td><?php echo $videojuego['precio'];?></td>
-                <td><?php echo $videojuego['imagen'];?></td>
-
-
+                <td><img src="../../img/<?php echo $videojuego['imagen'];?>" width="50" alt=""></td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $videojuego['id']; ?>"/>
