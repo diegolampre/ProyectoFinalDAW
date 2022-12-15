@@ -35,12 +35,26 @@ switch($accion){
     case "Modificar";
         echo "Presionado boton modificar";
         break;
+
     case "Cancelar";
         echo "Presionado boton cancelar";
         break;
+
     case "Seleccionar";
+        $sentenciaSQL = $conexion->prepare("SELECT * FROM videojuegos WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->execute();
+        $videojuego=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+        $txtNombre = $videojuego['nombre'];
+        $txtCategoria = $videojuego['categoria'];
+        $txtDescripcion = $videojuego['descripcion'];
+        $txtPrecio = $videojuego['precio'];
+        $txtImagen = $videojuego['imagen'];
+
         //echo "Presionado boton Seleccionar";
         break;
+
     case "Borrar";
         $sentenciaSQL = $conexion->prepare("DELETE FROM videojuegos WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
@@ -67,31 +81,34 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
             <div class = "form-group" enctype="multipart/form-data">
                 <label for="txtID">ID:</label>
-                <input type="text" class="form-control" name="txtID" id="txtID"  placeholder="ID">
+                <input type="text" class="form-control" <?php echo $txtID;?> name="txtID" id="txtID"  placeholder="ID">
             </div>
 
             <div class = "form-group">
                 <label for="txtNombre">Nombre:</label>
-                <input type="text" class="form-control" name="txtNombre" id="txtNombre"  placeholder="Nombre del videojuego">
+                <input type="text" class="form-control" value="<?php echo $txtNombre;?>" name="txtNombre" id="txtNombre"  placeholder="Nombre del videojuego">
             </div>
 
             <div class = "form-group">
                 <label for="txtCategoria">Categoria:</label>
-                <input type="text" class="form-control" name="txtCategoria" id="txtCategoria"  placeholder="Categoria del producto">
+                <input type="text" class="form-control" value="<?php echo $txtCategoria;?>" name="txtCategoria" id="txtCategoria"  placeholder="Categoria del producto">
             </div>
 
             <div class = "form-group">
                 <label for="txtDescripcion">Descripcion:</label>
-                <input type="text" class="form-control" name="txtDescripcion" id="txtDescripcion"  placeholder="Descripcion del producto">
+                <input type="text" class="form-control" value="<?php echo $txtDescripcion;?>" name="txtDescripcion" id="txtDescripcion"  placeholder="Descripcion del producto">
             </div>
 
             <div class = "form-group">
                 <label for="txtPrecio">Precio:</label>
-                <input type="text" class="form-control" name="txtPrecio" id="txtPrecio"  placeholder="Precio del producto">
+                <input type="text" class="form-control" value="<?php echo $txtPrecio;?>" name="txtPrecio" id="txtPrecio"  placeholder="Precio del producto">
             </div>
 
             <div class = "form-group">
                 <label for="txtImagen">Imagen;</label>
+
+                <?php echo $txtImagen;?>
+                
                 <input type="file" class="form-control" name="txtImagen" id="txtImagen">
             </div>
 
@@ -135,7 +152,7 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $videojuego['imagen'];?></td>
 
 
-                <td>Seleccionar | Borrar
+                <td>
                     <form method="post">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $videojuego['id']; ?>"/>
 
