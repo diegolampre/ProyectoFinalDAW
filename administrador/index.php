@@ -1,3 +1,9 @@
+<?php
+    if($_POST){
+    header('Location:inicio.php');
+    }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -24,10 +30,10 @@
                         </div>
 
                         <div class="card-body">
-                            <form>
+                            <form method="POST">
 
                             <div class = "form-group">
-                            <label for="exampleInputEmail1">Usuario</label>
+                            <label>Usuario</label>
                             <input type="text" class="form-control" name="usuario" placeholder="Introduce Usuario">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
