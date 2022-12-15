@@ -1,8 +1,20 @@
 <?php include("../template/cabecera.php"); ?>
 <?php
-print_r($_POST);
+//print_r($_POST);
+//print_r($_FILES);
+$txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
+$txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
+$txtCantidad=(isset($_POST['txtCantidad']))?$_POST['txtCantidad']:"";
+$txtPrecio=(isset($_POST['txtPrecio']))?$_POST['txtPrecio']:"";
+$txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
+$accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
-print_r($_FILES);
+echo $txtID. "<br/>";
+echo $txtNombre. "<br/>";
+echo $txtCantidad. "<br/>";
+echo $txtPrecio. "<br/>";
+echo $txtImagen. "<br/>";
+echo $accion. "<br/>";
 ?>
 
 <div class="col-md-5">
