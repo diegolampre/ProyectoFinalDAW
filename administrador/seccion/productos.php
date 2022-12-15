@@ -1,4 +1,9 @@
 <?php include("../template/cabecera.php"); ?>
+<?php
+print_r($_POST);
+
+print_r($_FILES);
+?>
 
 <div class="col-md-5">
 
@@ -7,7 +12,7 @@
             Datos de videojuegos
         </div>
         <div class="card-body">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <div class = "form-group" enctype="multipart/form-data">
                 <label for="txtID">ID:</label>
@@ -35,9 +40,9 @@
             </div>
 
             <div class="btn-group" role="group" aria-label="">
-                <button type="button" class="btn btn-success">Agregar</button>
-                <button type="button" class="btn btn-warning">Modificar</button>
-                <button type="button" class="btn btn-info">Cancelar</button>
+                <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
+                <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
+                <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
             </div>
 
         </form>
