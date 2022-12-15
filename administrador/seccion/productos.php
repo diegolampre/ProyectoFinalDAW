@@ -38,6 +38,16 @@ switch($accion){
     case "Cancelar";
         echo "Presionado boton cancelar";
         break;
+    case "Seleccionar";
+        //echo "Presionado boton Seleccionar";
+        break;
+    case "Borrar";
+        $sentenciaSQL = $conexion->prepare("DELETE FROM videojuegos WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->execute();
+        //echo "Presionado boton Borrar";
+        break;
+    
 }
 
 $sentenciaSQL = $conexion->prepare("SELECT * FROM videojuegos");
@@ -123,7 +133,18 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $videojuego['descripcion'];?></td>
                 <td><?php echo $videojuego['precio'];?></td>
                 <td><?php echo $videojuego['imagen'];?></td>
-                <td>Seleccionar | Borrar</td>
+
+
+                <td>Seleccionar | Borrar
+                    <form method="post">
+                        <input type="hidden" name="txtID" id="txtID" value="<?php echo $videojuego['id']; ?>"/>
+
+                        <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary"/>
+
+                        <input type="submit" name="accion" value="Borrar" class="btn btn-danger"/>
+
+                    </form>
+                </td>
             </tr>
             <?php } ?>
 
