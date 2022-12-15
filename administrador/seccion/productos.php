@@ -33,6 +33,38 @@ switch($accion){
         //echo "Presionado boton agregar";
         break;
     case "Modificar";
+        //nombre
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET nombre=:nombre WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':nombre',$txtNombre);
+        $sentenciaSQL->execute();
+
+        //categoria
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET categoria=:categoria WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':categoria',$txtCategoria);
+        $sentenciaSQL->execute();
+
+        //descripcion
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET descripcion=:descripcion WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':descripcion',$txtDescripcion);
+        $sentenciaSQL->execute();
+
+        //precio
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET precio=:precio WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':precio',$txtPrecio);
+        $sentenciaSQL->execute();
+
+        //imagen
+        if($txtImagen!=""){
+            $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET imagen=:imagen WHERE id=:id");
+            $sentenciaSQL->bindParam(':id',$txtID);
+            $sentenciaSQL->bindParam(':imagen',$txtImagen);
+            $sentenciaSQL->execute();
+        }
+
         echo "Presionado boton modificar";
         break;
 
@@ -46,6 +78,7 @@ switch($accion){
         $sentenciaSQL->execute();
         $videojuego=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
+        //$txtID = $videojuego['id'];
         $txtNombre = $videojuego['nombre'];
         $txtCategoria = $videojuego['categoria'];
         $txtDescripcion = $videojuego['descripcion'];
