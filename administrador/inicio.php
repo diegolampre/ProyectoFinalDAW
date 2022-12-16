@@ -2,12 +2,12 @@
                 
                 <div class="col-md-12">  
                     <div class="jumbotron">
-                        <h1 class="display-3">Jumbo heading</h1>
-                        <p class="lead">Jumbo helper text</p>
+                        <h1 class="display-3">Bienvenido <?php echo $nombreUsuario; ?></h1>
+                        <p class="lead">Vamios a administrar nuestros productos y usuarios en el sitio web.</p>
                         <hr class="my-2">
-                        <p>More info</p>
                         <p class="lead">
-                            <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
+                            <a class="btn btn-primary btn-lg" href="seccion/productos.php" role="button">Administrar Productos</a>
+                            <a class="btn btn-primary btn-lg" href="seccion/usuarios.php" role="button">Administrar Usuarios</a>
                         </p>
                     </div>
                 </div>

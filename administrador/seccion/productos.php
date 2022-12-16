@@ -95,10 +95,12 @@ switch($accion){
         }
 
         //echo "Presionado boton modificar";
+        header("Location:productos.php");
         break;
 
     case "Cancelar";
-        echo "Presionado boton cancelar";
+        header("Location:productos.php");
+        //echo "Presionado boton cancelar";
         break;
 
     case "Seleccionar";
@@ -135,6 +137,7 @@ switch($accion){
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
         //echo "Presionado boton Borrar";
+        header("Location:productos.php");
         break;
     
 }
@@ -156,47 +159,47 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
             <div class = "form-group" enctype="multipart/form-data">
                 <label for="txtID">ID:</label>
-                <input type="text" class="form-control" <?php echo $txtID;?> name="txtID" id="txtID"  placeholder="ID">
+                <input type="text"   class="form-control" <?php echo $txtID;?> name="txtID" id="txtID"  placeholder="ID">
             </div>
 
             <div class = "form-group">
                 <label for="txtNombre">Nombre:</label>
-                <input type="text" class="form-control" value="<?php echo $txtNombre;?>" name="txtNombre" id="txtNombre"  placeholder="Nombre del videojuego">
+                <input type="text" required class="form-control" value="<?php echo $txtNombre;?>" name="txtNombre" id="txtNombre"  placeholder="Nombre del videojuego">
             </div>
 
             <div class = "form-group">
                 <label for="txtCategoria">Categoria:</label>
-                <input type="text" class="form-control" value="<?php echo $txtCategoria;?>" name="txtCategoria" id="txtCategoria"  placeholder="Categoria del producto">
+                <input type="text" required class="form-control" value="<?php echo $txtCategoria;?>" name="txtCategoria" id="txtCategoria"  placeholder="Categoria del producto">
             </div>
 
             <div class = "form-group">
                 <label for="txtDescripcion">Descripcion:</label>
-                <input type="text" class="form-control" value="<?php echo $txtDescripcion;?>" name="txtDescripcion" id="txtDescripcion"  placeholder="Descripcion del producto">
+                <input type="text" required class="form-control" value="<?php echo $txtDescripcion;?>" name="txtDescripcion" id="txtDescripcion"  placeholder="Descripcion del producto">
             </div>
 
             <div class = "form-group">
                 <label for="txtPrecio">Precio:</label>
-                <input type="text" class="form-control" value="<?php echo $txtPrecio;?>" name="txtPrecio" id="txtPrecio"  placeholder="Precio del producto">
+                <input type="text" required class="form-control" value="<?php echo $txtPrecio;?>" name="txtPrecio" id="txtPrecio"  placeholder="Precio del producto">
             </div>
 
             <div class = "form-group">
-                <label for="txtImagen">Imagen;</label>
+                <label for="txtImagen">Imagen:</label>
 
                 <?php echo $txtImagen;?>
                 <br/>
                 <?php if($txtImagen!=""){ ?>
 
-                    <img src="../../img/<?php echo $txtImagen;?> width="50" alt="">
+                    <img class="img-thumbnail rounded"src="../../img/<?php echo $txtImagen;?> width="50" alt="">
 
                 <?php } ?>
                 
-                <input type="file" class="form-control" name="txtImagen" id="txtImagen">
+                <input type="file"  class="form-control" name="txtImagen" id="txtImagen">
             </div>
 
             <div class="btn-group" role="group" aria-label="">
-                <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
-                <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
-                <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
+                <button type="submit" name="accion" <?php echo ($accion=="Seleccionar")?"disabled":""; ?> value="Agregar" class="btn btn-success">Agregar</button>
+                <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":""; ?> value="Modificar" class="btn btn-warning">Modificar</button>
+                <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":""; ?> value="Cancelar" class="btn btn-info">Cancelar</button>
             </div>
 
         </form>
@@ -230,7 +233,7 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $videojuego['categoria'];?></td>
                 <td><?php echo $videojuego['descripcion'];?></td>
                 <td><?php echo $videojuego['precio'];?></td>
-                <td><img src="../../img/<?php echo $videojuego['imagen'];?>" width="50" alt=""></td>
+                <td><img class="img-thumbnail rounded" src="../../img/<?php echo $videojuego['imagen'];?>" width="50" alt=""></td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $videojuego['id']; ?>"/>
