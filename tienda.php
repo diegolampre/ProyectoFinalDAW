@@ -8,7 +8,6 @@
 <?php
 
 
-print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +52,7 @@ print_r($_SESSION);
             </li>
         </ul>
     
-        <a href="carrito.php" class="btn btn-primary">
+        <a href="checkout.php" class="btn btn-primary">
             Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart; ?></span>
         </a>
     </nav>
