@@ -3,7 +3,7 @@
 
 
 require '../administrador/config/config.php';
-require '../administrador/config/bd2.php';
+require '../administrador/config/bd.php';
 
 
 if(isset($_POST['action'])){

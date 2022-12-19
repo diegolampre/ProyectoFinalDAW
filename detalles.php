@@ -98,16 +98,16 @@ if ($id == '' || $token == ''){
             </div>
             <div class="col-md-6 order-md-2">
                 <h1><?php echo $nombre; ?></h1>
+
                 <?php if($descuento > 0) { ?>
                     <h2 style="display:inline">
-                        <?php echo $precio_desc;?>€ 
+                        <?php echo number_format($precio_desc, 2, '.',','). MONEDA ;?>
                     </h2>
-                    <p style="display:inline"><del><?php echo $precio; ?>€</del></p>
+                    <p style="display:inline"><del><?php echo number_format($precio, 2, '.',',') . MONEDA ?></del></p>
                     <small class="text-success"><?php echo $descuento; ?>% descuento</small>
                     <?php } else { ?>    
-                            <h2><?php echo $precio; ?>€</h2>
+                            <h2><?php echo number_format($precio, 2, '.',',') . MONEDA ?></h2>
                     <?php } ?>
-                    </br>
                     </br>
                     <h3><?php echo $categoria; ?></h3>
                 <p class="lead">

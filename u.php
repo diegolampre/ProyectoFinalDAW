@@ -1,10 +1,14 @@
+<?php 
+require 'administrador/config/bd2.php'; 
+require 'administrador/config/config.php';
+$db = new Database();
+$con = $db->conectar();
 
-<?php include ("administrador/config/bd.php"); 
-    $sentenciaSQL = $conexion->prepare("SELECT id, nombre, precio, imagen FROM videojuegos WHERE activo=1");
+
+    $sentenciaSQL = $con->prepare("SELECT id, nombre, precio, imagen FROM videojuegos WHERE activo=1");
     $sentenciaSQL->execute();
     $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<?php include("administrador/config/config.php")  ?>
 <?php
 
 

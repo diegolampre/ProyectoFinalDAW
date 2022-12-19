@@ -13,7 +13,7 @@ $lista_carrito = array();
 if($productos != null){
     foreach($productos as $clave => $cantidad)  {
 
-        $sentenciaSQL = $conexion->prepare("SELECT id, nombre, precio, descuento, $cantidad AS cantidad  FROM videojuegos WHERE id=? "); // AND activo=1
+        $sentenciaSQL = $conexion->prepare("SELECT id, nombre, precio, descuento, $cantidad AS cantidad  FROM videojuegos WHERE id=?  AND activo=1 "); // AND activo=1
         $sentenciaSQL->execute([$clave]);
         $lista_carrito[]=$sentenciaSQL->fetch(PDO::FETCH_ASSOC);
     }
@@ -101,20 +101,20 @@ print_r($_SESSION);
                                 $nombre = $producto['nombre'] ;
                                 $precio = $producto['precio'] ;
                                 $descuento = $producto['descuento'] ;
-                                $precio_desc = $precio - (($precio * $descuento)/100) ;
                                 $cantidad = $producto['cantidad'] ;
+                                $precio_desc = $precio - (($precio * $descuento)/100) ;
                                 $subtotal = $cantidad * $precio_desc ;
                                 $total += $subtotal ;
                         ?>
 
                         <tr>
                             <td><?php echo $nombre ?></td>
-                            <td><?php echo $precio_desc ?>€</td>
+                            <td><?php echo number_format($precio_desc, 2, ',',',') . MONEDA  ?></td>
                             <td>
-                                <input type="number" min="1" max="10" step="1" value="<?php  echo $cantidad ?>" size="5" id="cantidad_<?php echo $_id; ?>" onchange="actualizaCantidad(this.value, <?php echo $_id; ?>)">
+                                <input type="number" min="1" max="10" step="1" readonly onmousedown="return false;" value="<?php  echo $cantidad ?>" size="5" id="cantidad_<?php echo $_id; ?>" onchange="">
                             </td>
                             <td>
-                                <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo $subtotal ?>€</div>
+                                <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo number_format($subtotal, 2, ',',',') . MONEDA   ?></div>
                             </td>
                             <td>
                                 <a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id;?>" data-ds-toggle="modal" data-bs-target="#eliminaModal">Eliminar</a>
@@ -124,7 +124,7 @@ print_r($_SESSION);
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="2">
-                                <p class="h3" id="total"> <?php echo $total?>  €</p>
+                                <p class="h3" id="total"> <?php echo number_format($total, 2, ',',',') . MONEDA  ?>  </p>
                             </td>
                         </tr>
                     </tbody>
