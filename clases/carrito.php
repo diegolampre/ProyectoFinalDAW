@@ -1,6 +1,6 @@
 <?php
 
-require 'administrador/config/config.php';
+require '../administrador/config/config.php';
 
 if(isset($_POST['id'])){
 

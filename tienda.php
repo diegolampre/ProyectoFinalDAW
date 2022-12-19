@@ -72,6 +72,7 @@
         <h4 style="font-size:" class="card-title"> <?php echo $videojuego['nombre'];?> </h4>
         <h5><?php echo $videojuego['precio'];?>€</h5>
         <!-- Cifrado de la informacion -->
+        <!--<a name="" id="" class="btn btn-primary" href="detalles.php?id=<?php echo $videojuego['id']; ?>&token=<?php echo hash_hmac('sha1', $videojuego['id'], KEY_TOKEN); ?>" role="button">Detalles</a>-->
         <a name="" id="" class="btn btn-primary" href="detalles.php?id=<?php echo $videojuego['id']; ?>&token=<?php echo hash_hmac('sha1', $videojuego['id'], KEY_TOKEN); ?>" role="button">Detalles</a>
         
     </div>

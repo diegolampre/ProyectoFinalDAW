@@ -18,31 +18,16 @@ if ($id == '' || $token == ''){
         $sentenciaSQL = $conexion->prepare("SELECT count(id) FROM videojuegos WHERE id=?");
         $sentenciaSQL->execute([$id]);
         if($sentenciaSQL->fetchColumn() > 0) {
-            $sentenciaSQL = $conexion->prepare("SELECT nombre, categoria, descripcion, precio, imagen FROM videojuegos WHERE id=?");
+            $sentenciaSQL = $conexion->prepare("SELECT nombre, categoria, descripcion, precio, descuento, imagen FROM videojuegos WHERE id=?");
             $sentenciaSQL->execute([$id]);
             $row = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $nombre = $row['nombre'];
             $categoria = $row['categoria'];
             $descripcion = $row['descripcion'];
             $precio = $row['precio'];
+            $descuento = $row['descuento'];
+            $precio_desc = $precio - (($precio * $descuento) / 100);
             $imagen = $row['imagen'];
-            $dir_imagen = 'img/'. $id .'/';
-
-            //$rutaImg = $dir_img . 'principal.jpg';
-        
-            //if(!file_exist($rutaImg)){
-            //    $rutaImg = 'img/imagen.jpg';
-            //}
-
-            //$imagenes = array();
-            //$dir = dir($dirImagen);
-
-            //while(($archivo = $dir->read()) != false) {
-            //    if($archivo != 'principal.jpg' && (strpos($archivo, 'jpg') || (strpos($archivo, 'jpeg'))){
-            //        $imagenes[] = $dirImagen . $archivo;
-            //    }
-            //}
-            //$dir->close();
         }
     }else {
         echo 'Error al procesar la peticion, vuelve al inicio';
@@ -109,12 +94,22 @@ if ($id == '' || $token == ''){
     <div class="container">
         <div class="row">
             <div class="col-md-6 order-md-1">
-                <img src="<?php echo $rutaImg; ?>" alt="">
+                <img src="img/<?php echo $imagen;?>" alt="">
             </div>
             <div class="col-md-6 order-md-2">
-                <h2><?php echo $nombre; ?></h2>
-                <h3><?php echo $categoria; ?></h3>
-                <h2><?php echo $precio; ?>€</h2>
+                <h1><?php echo $nombre; ?></h1>
+                <?php if($descuento > 0) { ?>
+                    <h2 style="display:inline">
+                        <?php echo $precio_desc;?>€ 
+                    </h2>
+                    <p style="display:inline"><del><?php echo $precio; ?>€</del></p>
+                    <small class="text-success"><?php echo $descuento; ?>% descuento</small>
+                    <?php } else { ?>    
+                            <h2><?php echo $precio; ?>€</h2>
+                    <?php } ?>
+                    </br>
+                    </br>
+                    <h3><?php echo $categoria; ?></h3>
                 <p class="lead">
                 <?php echo $descripcion; ?>
                 </p>
@@ -139,7 +134,7 @@ if ($id == '' || $token == ''){
 
 <script>
     function addProducto(id,token){
-        let url= 'carrito.php';
+        let url= 'clases/carrito.php';
         let formData = new FormData()
         formData.append('id', id)
         formData.append('token', token)
@@ -151,7 +146,7 @@ if ($id == '' || $token == ''){
         }).then(response => response.json())
         .then(data => {
             if(data.ok){
-                let welemento = document.getElementById("num_cart")
+                let elemento = document.getElementById("num_cart")
                 elemento.innerHTML = data.numero
             }
         })
