@@ -23,13 +23,11 @@ if($productos != null){
 <?php
 
 
-print_r($_SESSION);
-
-
-
-
-
 //print_r($_SESSION);
+
+//session_destroy();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +115,7 @@ print_r($_SESSION);
                                 <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo number_format($subtotal, 2, ',',',') . MONEDA   ?></div>
                             </td>
                             <td>
-                                <a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id;?>" data-ds-toggle="modal" data-bs-target="#eliminaModal">Eliminar</a>
+                                <a  id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id;?>" data-ds-toggle="modal" data-bs-target="#eliminaModal" >Eliminar</a>
                             </td>
                         </tr>
                         <?php  } ?>
@@ -131,12 +129,13 @@ print_r($_SESSION);
                     <?php  } ?>
                 </table>
             </div>
-        
+            <?php if ($lista_carrito != null){ ?>
             <div class="row">
                 <div class="col-md-5 offset-md-7 d-grid gap-2">
-                    <button class="btn btn-primary btn-lg">Realizar Pago</button>
+                    <a href="pago.php" class="btn btn-primary btn-lg">Realizar Pago</a>
                 </div>
             </div>
+            <?php } ?>
 
         </div>
     </main>
@@ -199,7 +198,7 @@ print_r($_SESSION);
                 divsubtotal.innerHTML = data.sub
 
                 let total = 0.00
-                let list = document.getElementByName('subtotal')
+                let list = document.getElementsByName('subtotal[]')
 
                 for(let i = 0; i < list.length; i++){
                     total += parseFloat(list[i].innerHTML.replace(/[$,]/g,  ''))
@@ -208,7 +207,8 @@ print_r($_SESSION);
                 total = new Intl.NumberFormat('es', {
                     minimumFractionDigits: 2
                 }).format(total)
-                document.getElementById('total').innerHTML = /* '< ?php echo MONEDA;?>' */ total
+                document.getElementById('total').innerHTML =  '< ?php echo MONEDA;?>' + total
+
             }
         })
     }
