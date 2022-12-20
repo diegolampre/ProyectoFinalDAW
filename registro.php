@@ -127,6 +127,7 @@ if(!empty($_POST)){
                 <div class="col-md-6">
                     <label for="email"><span class="text-danger">*</span> Correo Electronico</label>
                     <input type="email" name="email" id="email" class="form-control" required>
+                    <span id="validaEmail" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6">
@@ -142,6 +143,7 @@ if(!empty($_POST)){
                 <div class="col-md-6">
                     <label for="usuario"><span class="text-danger">*</span> Usuario</label>
                     <input type="text" name="usuario" id="usuario" class="form-control" required>
+                    <span id="validaUsuario" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6">
@@ -162,6 +164,63 @@ if(!empty($_POST)){
         </div>
     </main>
 
+
+    <script>
+        let txtUsuario = document.getElementById('usuario')
+        txtUsuario.addEventListener("blur", function(){
+            existeUsuario(txtUsuario.value)
+        }, false)
+
+        let txtEmail = document.getElementById('email')
+        txtEmail.addEventListener("blur", function(){
+            existeEmail(txtEmail.value)
+        }, false)
+        
+        function existeUsuario(usuario){
+
+            let url = "clases/clienteAjax.php"
+            let formData = new FormData()
+            formData.append("action", "existeUsuario")
+            formData.append("usuario", "usuario")
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    document.getElementById('usuario').value = ''
+                    document.getElementById('validaUsuario').innerHTML = 'Usuario no disponible'
+                } else {
+
+                    document.getElementById('validaUsuario').innerHTML = ''
+                }
+            })
+        }
+
+
+        function existeEmail(email){
+
+            let url = "clases/clienteAjax.php"
+            let formData = new FormData()
+            formData.append("action", "existeEmail")
+            formData.append("email", "email")
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    document.getElementById('email').value = ''
+                    document.getElementById('validaEmail').innerHTML = 'Correo no disponible'
+                } else {
+
+                    document.getElementById('validaEmail').innerHTML = ''
+                }
+            })
+        }
+    </script>
 
 
 <?php include("template/pie.php") ?>
