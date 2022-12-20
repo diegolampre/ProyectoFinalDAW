@@ -14,28 +14,45 @@ if(!empty($_POST)){
     $nombres = trim($_POST['nombres']);
     $apellidos = trim($_POST['apellidos']);
     $email = trim($_POST['email']);
-    $telefono = trim($_POST['telefono']);
+    $telefono = trim($_POST['telefono']); 
     $dni = trim($_POST['dni']);
     $usuario = trim($_POST['usuario']);
     $password = trim($_POST['password']);
     $repassword = trim($_POST['repassword']);
 
-    $id = registraCliente([$nombres, $apellidos, $email, $telefono, $dni], $conexion);
-
-    if($id > 0){
-        $pass_hash = password_hash($password, PASSWORD_DEFAULT);
-        $token = generaToken();
-        if(!registraUsuario([$usuario, $pass_hash, $token, $id], $conexion)){
-            $errors[] = "Error al registrar cliente";
-        }
-    } else{
-        $errors[] = "Error al registrar cliente";
+    if(esNulo([$nombres, $apellidos, $email, $telefono, $dni, $usuario, $password, $repassword])){
+        $errors = "Debe completar todos los campos que contengan * ";
     }
 
-    if(count($errors) == 0){
-        
-    } else{
-        print_r($errors);
+    if (!esEmail($email)) {
+        $errors[] = "La direccion de correo no es valida";
+    }
+
+    if(!validaPassword($password, $repassword)){
+        $errors[] = "Las contraseña no coinciden";
+    }
+
+    if(usuarioExiste($usuario, $conexion)){
+        $errors[] = "El nombre de usuario $usuario ya existe";
+    }
+
+    if(emailExiste($email, $conexion)){
+        $errors[] = "El correo electronico $email ya esta vinculado a otro usuario";
+    }
+
+    if (count($errors) == 0) {
+
+        $id = registraCliente([$nombres, $apellidos, $email, $telefono, $dni], $conexion);
+
+        if ($id > 0) {
+            $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+            $token = generaToken();
+            if (!registraUsuario([$usuario, $pass_hash, $token, $id], $conexion)) {
+                $errors[] = "Error al registrar cliente";
+            }
+        } else {
+            $errors[] = "Error al registrar cliente";
+        }
     }
 }
 ?>
@@ -93,6 +110,8 @@ if(!empty($_POST)){
     <main>
         <div class="container">
             <h2>Datos del cliente</h2>
+
+            <?php mostrarMensajes($errors); ?>
 
             <form class="row g-3" action="registro.php" method= "post" autocomplete="off">
                 <div class="col-md-6">

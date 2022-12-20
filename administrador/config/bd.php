@@ -1,4 +1,6 @@
 <?php
+
+
 $host = "localhost";
 $bd = "sitio";
 $usuario = "root";
