@@ -3,7 +3,7 @@
 require '../administrador/config/config.php';
 require '../administrador/config/bd.php';
 $db = new Database();
-$con = $db->conectar();
+$conexion = $db->conectar();
 
 $json = file_get_contents('php://input');
 $datos = json_decode($json, true);
@@ -22,10 +22,10 @@ if(is_array($datos)){
     $email = $datos['detalles']['payer']['email_address'];
     $id_cliente = $datos['detalles']['payer']['payer_id'];
 
-    $sentenciaSQL = $con->prepare("INSERT INTO compra (id_transaccion, fecha, status, email, id_cliente, total) VALUES (?,?,?,?,?,?)");
+    $sentenciaSQL = $conexion->prepare("INSERT INTO compra (id_transaccion, fecha, status, email, id_cliente, total) VALUES (?,?,?,?,?,?)");
 
     $sentenciaSQL->execute([$id_transaccion, $fecha_nueva, $status, $email, $id_cliente, $total]);
-    $id = $con->lastInsertId();
+    $id = $conexion->lastInsertId();
 
     if($id > 0){
         $productos = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
@@ -33,7 +33,7 @@ if(is_array($datos)){
         if($productos != null){
             foreach($productos as $clave => $cantidad)  {
         
-                $sentenciaSQL = $con->prepare("SELECT id, nombre, precio, descuento FROM videojuegos WHERE id=?  AND activo=1 "); // AND activo=1
+                $sentenciaSQL = $conexion->prepare("SELECT id, nombre, precio, descuento FROM videojuegos WHERE id=?  AND activo=1 "); // AND activo=1
                 $sentenciaSQL->execute([$clave]);
                 $row_prod = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
 
@@ -41,9 +41,10 @@ if(is_array($datos)){
                 $descuento = $row_prod['descuento'] ;
                 $precio_desc = $precio - (($precio * $descuento) / 100);
 
-                $sql_insert = $con->prepare("INSERT INTO detalle_compra (id_compra, id_producto, nombre, precio, cantidad) VALUES (?,?,?,?,?)");
+                $sql_insert = $conexion->prepare("INSERT INTO detalle_compra (id_compra, id_producto, nombre, precio, cantidad) VALUES (?,?,?,?,?)");
                 $sql_insert->execute([$id, $clave, $row_prod['nombre'], $precio_desc, $cantidad]);
             }
+            include 'enviar_email.php';
         }
         unset($_SESSION['carrito']);
     }
