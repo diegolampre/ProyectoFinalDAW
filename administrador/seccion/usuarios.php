@@ -5,7 +5,7 @@
 $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
 $txtUsuario=(isset($_POST['txtUsuario']))?$_POST['txtUsuario']:"";
 $txtCorreoelectronico=(isset($_POST['txtcorreoelectronico']))?$_POST['txtcorreoelectronico']:"";
-$txtContraseña=(isset($_POST['txtContraseña']))?$_POST['txtContraseña']:"";
+$txtPassword=(isset($_POST['txtPassword']))?$_POST['txtPassword']:"";
 $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
 //echo $txtID. "<br/>";
@@ -21,30 +21,25 @@ include("../config/bd.php");
 switch($accion){
     case "Agregar";
         //INSERT INTO `usuarios` (`id`, `usuario`, `correoelectronico`, `contraseña`) VALUES (NULL, 'juan2412', 'juan@gmail.com', 'juan12');
-        $sentenciaSQL= $conexion->prepare("INSERT INTO usuarios (usuario, correoelectronico, contraseña) VALUES (:usuario,:correoelectronico,:contraseña);");
+        $sentenciaSQL= $conexion->prepare("INSERT INTO usuarios (usuario, password) VALUES (:usuario,:password);");
         $sentenciaSQL->bindParam(':usuario',$txtUsuario);
-        $sentenciaSQL->bindParam(':correoelectronico',$txtCorreoelectronico);
-        $sentenciaSQL->bindParam(':contraseña',$txtContraseña);
+        $sentenciaSQL->bindParam(':password',$txtPassword);
         $sentenciaSQL->execute();
         //echo "Presionado boton agregar";
         break;
     case "Modificar";
         //usuario
+
         $sentenciaSQL = $conexion->prepare("UPDATE usuarios SET usuario=:usuario WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->bindParam(':usuario',$txtUsuario);
         $sentenciaSQL->execute();
 
-        //correo electronico
-        $sentenciaSQL = $conexion->prepare("UPDATE usuarios SET correoelectronico=:correoelectronico WHERE id=:id");
-        $sentenciaSQL->bindParam(':id',$txtID);
-        $sentenciaSQL->bindParam(':correoelectronico',$txtCorreoelectronico);
-        $sentenciaSQL->execute();
 
-        //contraseña
-        $sentenciaSQL = $conexion->prepare("UPDATE usuarios SET contraseña=:contraseña WHERE id=:id");
+        //password
+        $sentenciaSQL = $conexion->prepare("UPDATE usuarios SET password=:password WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
-        $sentenciaSQL->bindParam(':contraseña',$txtContraseña);
+        $sentenciaSQL->bindParam(':password',$txtPassword);
         $sentenciaSQL->execute();
 
         //echo "Presionado boton modificar";
@@ -52,6 +47,7 @@ switch($accion){
 
     case "Cancelar";
         //echo "Presionado boton cancelar";
+        header("Location:usuarios.php");
         break;
 
     case "Seleccionar";
@@ -62,8 +58,7 @@ switch($accion){
 
         //$txtID = $videojuego['id'];
         $txtUsuario = $usuario['usuario'];
-        $txtCorreoelectronico = $usuario['correoelectronico'];
-        $txtContraseña = $usuario['contraseña'];
+        $txtPassword = $usuario['password'];
 
         //echo "Presionado boton Seleccionar";
         break;
@@ -80,6 +75,8 @@ switch($accion){
 $sentenciaSQL = $conexion->prepare("SELECT * FROM usuarios");
 $sentenciaSQL->execute();
 $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 ?>
 
@@ -103,17 +100,11 @@ $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class = "form-group">
-                <label for="txtCorreoelectronico">Correo Electronico:</label>
-                <input type="text" class="form-control" value="<?php echo $txtCorreoelectronico;?>" name="txtCorreoelectronico" id="txtCorreoelectronico"  placeholder="Correo electronico">
-            </div>
-
-            <div class = "form-group">
-                <label for="txtContraseña">Contraseña:</label>
-                <input type="text" class="form-control" value="<?php echo $txtContraseña;?>" name="txtContraseña" id="txtContraseña"  placeholder="Contraseña">
+                <label for="txtPassword">password:</label>
+                <input type="text" class="form-control" value="<?php echo $txtPassword;?>" name="txtPassword" id="txPassword"  placeholder="Contraseña">
             </div>
 
             <div class="btn-group" role="group" aria-label="">
-                <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
                 <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
                 <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
             </div>
@@ -132,8 +123,7 @@ $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo electronico</th>
+                <th>Usuario</th>
                 <th>Contraseña</th>
                 <th>Acciones</th>
 
@@ -144,8 +134,7 @@ $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <td><?php echo $usuario['id'];?></td>
                 <td><?php echo $usuario['usuario'];?></td>
-                <td><?php echo $usuario['correoelectronico'];?></td>
-                <td><?php echo $usuario['contraseña'];?></td>
+                <td><?php echo $usuario['password'];?></td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $usuario['id']; ?>"/>

@@ -7,6 +7,8 @@ $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
 $txtCategoria=(isset($_POST['txtCategoria']))?$_POST['txtCategoria']:"";
 $txtDescripcion=(isset($_POST['txtDescripcion']))?$_POST['txtDescripcion']:"";
 $txtPrecio=(isset($_POST['txtPrecio']))?$_POST['txtPrecio']:"";
+$txtDescuento=(isset($_POST['txtDescuento']))?$_POST['txtDescuento']:"";
+$txtActivo=(isset($_POST['txtActivo']))?$_POST['txtActivo']:"";
 $txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
 $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
@@ -23,11 +25,13 @@ include("../config/bd.php");
 switch($accion){
     case "Agregar";
         //$sentenciaSQL= $conexion->prepare("INSERT INTO `videojuegos` (`id`, `nombre`, `categoria`, `descripcion`, `precio`, `imagen`) VALUES (NULL, 'Cyberpunk 2077', 'Accion', 'ompra Cyberpunk 2077 key y sumérgete en un mundo abierto donde serás capaz de explorar Night City: una enorme, distópica metrópolis, donde todos están obsesionados con tecnología sci-fi y modificación corporales. Esta experiencia RPG de CD Project RED te dará los controles de V, una absoluta bestia humana, quién (como muchos otros) está obsesionado con adquirir un implante en especial, uno que otorga inmortalidad.', '34.99', 'imagen.jpg');");
-        $sentenciaSQL= $conexion->prepare("INSERT INTO videojuegos (nombre, categoria, descripcion, precio, imagen) VALUES (:nombre,:categoria,:descripcion,:precio,:imagen);");
+        $sentenciaSQL= $conexion->prepare("INSERT INTO videojuegos (nombre, categoria, descripcion, precio, descuento, activo, imagen) VALUES (:nombre,:categoria,:descripcion,:precio, :descuento, :activo, :imagen);");
         $sentenciaSQL->bindParam(':nombre',$txtNombre);
         $sentenciaSQL->bindParam(':categoria',$txtCategoria);
         $sentenciaSQL->bindParam(':descripcion',$txtDescripcion);
         $sentenciaSQL->bindParam(':precio',$txtPrecio);
+        $sentenciaSQL->bindParam(':activo',$txtActivo);
+        $sentenciaSQL->bindParam(':descuento',$txtDescuento);
 
         $fecha = new DateTime();
         $nombreArchivo=($txtImagen!="")?$fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
@@ -65,6 +69,19 @@ switch($accion){
         $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET precio=:precio WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->bindParam(':precio',$txtPrecio);
+        $sentenciaSQL->execute();
+
+        //descuento
+
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET descuento=:descuento WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':descuento',$txtDescuento);
+        $sentenciaSQL->execute();
+
+        //Activo
+        $sentenciaSQL = $conexion->prepare("UPDATE videojuegos SET activo=:activo WHERE id=:id");
+        $sentenciaSQL->bindParam(':id',$txtID);
+        $sentenciaSQL->bindParam(':activo',$txtActivo);
         $sentenciaSQL->execute();
 
         //imagen
@@ -114,6 +131,8 @@ switch($accion){
         $txtCategoria = $videojuego['categoria'];
         $txtDescripcion = $videojuego['descripcion'];
         $txtPrecio = $videojuego['precio'];
+        $txtDescuento = $videojuego['descuento'];
+        $txtActivo = $videojuego['activo'];
         $txtImagen = $videojuego['imagen'];
 
         //echo "Presionado boton Seleccionar";
@@ -178,8 +197,18 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class = "form-group">
-                <label for="txtPrecio">Precio:</label>
+                <label for="txtPrecio">Precio (€):</label>
                 <input type="text" required class="form-control" value="<?php echo $txtPrecio;?>" name="txtPrecio" id="txtPrecio"  placeholder="Precio del producto">
+            </div>
+
+            <div class = "form-group">
+                <label for="txtPrecio">Descuento (%):</label>
+                <input type="text" required class="form-control" value="<?php echo $txtDescuento;?>" name="txtDescuento" id="txtDescuento"  placeholder="Descuento del producto">
+            </div>
+
+            <div class = "form-group">
+                <label for="txtPrecio">Activo (1 o 0):</label>
+                <input type="text" required class="form-control" value="<?php echo $txtActivo;?>" name="txtActivo" id="txtActivo"  placeholder="Disponibilidad de producto">
             </div>
 
             <div class = "form-group">
@@ -220,6 +249,8 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <th>Categoria</th>
                 <th>Descripcion</th>
                 <th>Precio</th>
+                <th>Descuento</th>
+                <th>Activo</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
 
@@ -233,6 +264,8 @@ $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $videojuego['categoria'];?></td>
                 <td><?php echo $videojuego['descripcion'];?></td>
                 <td><?php echo $videojuego['precio'];?></td>
+                <td><?php echo $videojuego['descuento'];?></td>
+                <td><?php echo $videojuego['activo'];?></td>
                 <td><img class="img-thumbnail rounded" src="../../img/<?php echo $videojuego['imagen'];?>" width="50" alt=""></td>
                 <td>
                     <form method="post">
