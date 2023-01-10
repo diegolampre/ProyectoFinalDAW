@@ -129,7 +129,7 @@ if(!empty($_POST)){
             <?php mostrarMensajes($errors); ?>
 
             <form class="row g-3" action="registro.php" method= "post" autocomplete="off">
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <label for="nombres"><span class="text-danger">*</span> Nombre</label>
                     <input type="text" name="nombres" id="nombres" class="form-control" required>
                 </div>

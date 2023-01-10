@@ -4,6 +4,7 @@
 
 require 'administrador/config/config.php';
 require 'administrador/config/bd.php';
+include 'clases/clienteFunciones.php';
 
 
 $productos = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
@@ -21,6 +22,8 @@ if($productos != null){
     header("Location: index.php ");
     exit;
 }
+
+
 ?>
 
 <?php
@@ -57,6 +60,8 @@ if($productos != null){
 
 
 <header>
+
+    
         <h1 style="text-align: center; font-size: 70px;" class="titulo">PropaGames</h3>
 
         <div class="navbar navbar-expand-lg  background-color: transparent ">
@@ -143,6 +148,7 @@ if($productos != null){
                                         $precio_desc = $precio - (($precio * $descuento)/100) ;
                                         $subtotal = $cantidad * $precio_desc ;
                                         $total += $subtotal ;
+
                                 ?>
 
                                 <tr>
@@ -182,11 +188,19 @@ if($productos != null){
         </div>
     </div>
 
-
+    <script src="https://www.paypal.com/sdk/js?client-id=<?php echo CLIENT_ID; ?>&currency=<?php echo CURRENCY; ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
+<?php 
+function quitar($cantidad){
+    $sig[] = '.';
+    $sig[] = ',';
+    return str_replace($sig, '', $cantidad);
+    }
 
-    <script src="https://www.paypal.com/sdk/js?client-id=<?php echo CLIENT_ID; ?>&currency=<?php echo CURRENCY; ?>"></script>
+$totalPaypal = quitar($total);
+?>
+
 
     <script>
     paypal.Buttons({
@@ -198,16 +212,18 @@ if($productos != null){
             return actions.order.create({
                 purchase_units: [{
                     amount:{
-                        value: <?php echo $total;?>
+                        value: <?php  echo $totalPaypal?>
                     }
                 }]
             });
         },
 
         onApprove: function(data, actions){
-            let URL = 'clases/captura.php'
+            let url = 'clases/captura.php'
             actions.order.capture().then(function (detalles){
                 console.log(detalles)
+
+                let url = 'clases/captura.php'
 
                 return fetch(url,{
                     method: 'post',
@@ -217,8 +233,6 @@ if($productos != null){
                     body: JSON.stringify({
                         detalles: detalles
                     })
-                }).then(function(response){
-                    window.location.href = "completado.php?key=" +detalles['id'];
                 })
                 
             });

@@ -135,7 +135,7 @@ if ($id == '' || $token == ''){
                 <?php echo $descripcion; ?>
                 </p>
                 <div class="d-grid gap-3 col-10 mx-auto">
-                    <button class="btn btn-primary" type="button">Comprar ahora</button>
+                    <button class="btn btn-primary" type="button" onclick="comprarAhora(<?php echo $id ?>, '<?php echo $token_tmp?>')">Comprar ahora</button>
                     <button class="btn btn-primary" type="button" onclick="addProducto(<?php echo $id ?>, '<?php echo $token_tmp?>')">Añadir al carrito</button> <!--duda -->
                 </div>
             </div>
@@ -174,5 +174,30 @@ if ($id == '' || $token == ''){
                 elemento.innerHTML = data.numero
             }
         })
+    }
+</script>
+
+
+<script>
+    function comprarAhora(id,token){
+        let url= 'clases/carrito.php';
+        let formData = new FormData()
+        formData.append('id', id)
+        formData.append('token', token)
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            mode: 'cors'
+        }).then(response => response.json())
+        .then(data => {
+            if(data.ok){
+                let elemento = document.getElementById("num_cart")
+                elemento.innerHTML = data.numero
+                
+            }location.href="pago.php";
+        })
+        location.href="pago.php";
+
     }
 </script>

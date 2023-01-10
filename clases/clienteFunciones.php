@@ -9,6 +9,8 @@ function esNulo(array $parametros){
     return false;
 }
 
+
+
 function esEmail($email){
     if(filter_var($email, FILTER_VALIDATE_EMAIL)){
         return true;

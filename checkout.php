@@ -202,7 +202,7 @@ if($productos != null){
 
 
 <script>
-    buttonElimina = "";
+
 
     let eliminaModal = document.getElementById('eliminaModal')
     eliminaModal.addEventListener('show.bs.modal', function(event){
