@@ -74,3 +74,30 @@ function mostrarMensajes(array $errors){
         echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     }
 }
+
+function login($usuario, $password, $conexion){
+    $sentenciaSQL = $conexion->prepare("SELECT id, usuario, password FROM usuarios WHERE usuario LIKE ? LIMIT 1");
+    $sentenciaSQL->execute([$usuario]);
+    if($row = $sentenciaSQL->fetch(PDO::FETCH_ASSOC)){
+        if(esActivo($usuario, $conexion)){
+            if(password_verify($password, $row['password'])){
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['user_name'] = $row['usuario'];
+                header("Location: index.php");
+                exit;
+            } 
+        } 
+        
+    }
+    return 'El usuario y/o contraseña son incorrectos,';
+}
+
+function esActivo($usuario, $conexion){
+    $sentenciaSQL = $conexion->prepare("SELECT activacion FROM usuarios WHERE usuario LIKE ? LIMIT 1");
+    $sentenciaSQL->execute([$usuario]);
+    $row = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+    if($row['activacion'] == 0){
+        return true;
+    }
+    return false;
+}

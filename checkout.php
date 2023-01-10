@@ -37,7 +37,7 @@ if($productos != null){
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
@@ -64,26 +64,35 @@ if($productos != null){
 
                 <div class="collapse navbar-collapse" id="navbarHeader"> <!-- collapse navbar-collapse-->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0"> <!-- nav-pills nav-fill navbar-nav me-auto mb-2 mb-lg-0 -->
-                        <li class="nav-item " style="margin-right: 147px; ">
+                        <li class="nav-item " style="margin-right: 100px; ">
                             <a class="nav-link text-light" style="font-size: 30px; " href="index.php">Inicio</a>
                         </li>
-                        <li class="nav-item" style="margin-right: 147px">
+                        <li class="nav-item" style="margin-right: 100px">
                             <a class="nav-link text-light" style="font-size: 30px;" href="tienda.php">Tienda</a>
                         </li>
-                        <li class="nav-item" style="margin-right: 147px">
+                        <li class="nav-item" style="margin-right: 100px">
                             <a class="nav-link active text-light" style="font-size: 30px;" href="nosotros.php">Nosotros</a>
                         </li>
-                        <li class="nav-item" style="margin-right: 147px">
+                        <li class="nav-item" style="margin-right: 100px">
                             <a class="nav-link text-light" style="font-size: 30px;" href="contacto.php">Contacto</a>
                         </li>
                     </ul>
 
-                    <a href="checkout.php" class="btn btn-primary" style="margin: 2px">
-                        Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart; ?></span>
-                    </a>
-
-                    <a href="registro.php" class="btn btn-primary " style="margin: 2px 0px 2px 4px">
+                    <a href="registro.php" class="btn btn-primary " style="margin: 2px ; ">
                         Registro 
+                    </a>
+                    <?php if(isset($_SESSION['user_id'])){ ?>
+                        <a href="" class="btn btn-primary " style="margin: 2px ;">
+                            <?php echo $_SESSION['user_name']; ?>
+                        </a>
+                    <?php } else {?>
+                        <a href="login.php" class="btn btn-primary " style="margin: 2px ;">
+                            Ingresar
+                        </a>
+                    <?php } ?>
+
+                    <a href="checkout.php" class="btn btn-primary" style="margin: 2px; ">
+                        Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart; ?></span>
                     </a>
                 </div>
             </div>
@@ -130,13 +139,13 @@ if($productos != null){
                             <td><?php echo $nombre ?></td>
                             <td><?php echo number_format($precio_desc, 2, ',',',') . MONEDA  ?></td>
                             <td>
-                                <input type="number" min="1" max="10" step="1" readonly onmousedown="return false;" value="<?php  echo $cantidad ?>" size="5" id="cantidad_<?php echo $_id; ?>" onchange="">
+                                <input type="number" min="1" max="10" step="1"   value="<?php  echo $cantidad ?>" size="5" id="cantidad_<?php echo $_id; ?>" onchange="actualizaCantidad(this.value, <?php echo $_id; ?>)">
                             </td>
                             <td>
                                 <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo number_format($subtotal, 2, ',',',') . MONEDA   ?></div>
                             </td>
                             <td>
-                                <a  id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id;?>" data-ds-toggle="modal" data-bs-target="#eliminaModal" >Eliminar</a>
+                                <a  id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id;?>" data-bs-toggle="modal" data-bs-target="#eliminaModal" >Eliminar</a>
                             </td>
                         </tr>
                         <?php  } ?>
@@ -163,7 +172,7 @@ if($productos != null){
 
         <!-- Modal -->
     <div class="modal fade" id="eliminaModal" tabindex="-1" aria-labelledby="eliminaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog  ">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="eliminaModalLabel">Alerta</h5>
@@ -193,21 +202,22 @@ if($productos != null){
 
 
 <script>
+    buttonElimina = "";
 
     let eliminaModal = document.getElementById('eliminaModal')
     eliminaModal.addEventListener('show.bs.modal', function(event){
         let button = event.relatedTarget
         let id = button.getAttribute('data-bs-id')
         let buttonElimina = eliminaModal.querySelector('.modal-footer #btn.elimina')
-        buttonElimina.value = id
+        buttonElimina.value = id;
     })
 
  //Actualizar cantidad del producto, mostrando sumatorios
     function actualizaCantidad(cantidad,id){
-        let url= '/clases/actualizar_carrito.php';
+        let url= 'clases/actualizar_carrito.php';
         let formData = new FormData()
-        formData.append('id', id)
-        formData.append('action', 'agregar')    
+        formData.append('action', 'agregar')  
+        formData.append('id', id)  
         formData.append('cantidad', cantidad)
 
         fetch(url, {
@@ -243,7 +253,7 @@ if($productos != null){
         let botonElimina = document.getElementById('btn-elimina')
         let id = botonElimina.value
 
-        let url= '/clases/actualizar_carrito.php';
+        let url= 'clases/actualizar_carrito.php'
         let formData = new FormData()
         formData.append('id', id)
         formData.append('action', 'eliminar')    

@@ -1,6 +1,6 @@
 <?php
 //Configuracion de Paypal
-define("CLIENT_ID", "AR3G6-tksWzumU2Pc78cXioplVjb9pSpaA_YfnwK0T4Hyf1ZZ8UD3Hu_DOFzRABqLhcRySRIlHN6ufCh");
+define("CLIENT_ID", "Abh2mFAoZA1ceS4G6YRnxHupw0ODVqeEFSLyw3QFE0EtAAbnVwTP2o4GBk-rEibqzF2Pi5seUr0ThrRM");
 define("CURRENCY", "EUR");
 
 //Configuracion del sistema
