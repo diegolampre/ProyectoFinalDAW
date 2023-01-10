@@ -76,8 +76,9 @@
 
     <div class="jumbotron">
         <h1 class="display-3">Nosotros</h1>
+        <hr class="my-2">
             <p class="lead">Hola somos un grupo de personas que se dedican a la venta de videojuegos de manera online</p>
-            <hr class="my-2">
+
 
 
     </div>

@@ -104,7 +104,9 @@ if(!empty($_POST)){
         <div class="row">
             <div class="jumbotron">
                 <h1 class="display-3">Contacto</h1>
+                <hr>
                 <p class="lead">A traves de este apartado podras contactar con el servicio al cliente.</p>
+
             </div>
         </div>
     </div>

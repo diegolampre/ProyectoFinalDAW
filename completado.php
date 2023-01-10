@@ -94,6 +94,16 @@
             </div>
         </div>
     </header>
+
+    <div class="container">
+
+        <div class="row">
+
+    <div class="jumbotron">
+        <h1 class="display-3">Pago Completado</h1>
+        <hr>
+
+    </div>
     
         <main>
             <div class="container">
@@ -109,7 +119,7 @@
                         <div class="col">
                             <b>Folio de la compra: </b><?php echo $id_transaccion; ?><br>
                             <b>Fecha de compra: </b><?php echo $fecha; ?><br>
-                            <b>Total: </b><?php echo number_format($precio, 2, '.',',') . MONEDA; ?><br>
+                            <b>Total: </b><?php echo number_format($total, 2, '.',',') . MONEDA; ?><br>
                         </div>
                     </div>
 
@@ -129,7 +139,7 @@
                                         <tr>
                                             <td><?php echo $row_det['cantidad']; ?></td>
                                             <td><?php echo $row_det['nombre']; ?></td>
-                                            <td><?php echo $importe; ?></td>
+                                            <td><?php echo $importe; ?>€</td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
