@@ -1,5 +1,34 @@
-<?php include("administrador/config/config.php")  ?>
-<?php include ("administrador/config/bd.php"); ?>
+<?php 
+include("administrador/config/config.php");
+include ("administrador/config/bd.php"); 
+include("clases/clienteFunciones.php");
+
+
+$errors = [];
+
+if(!empty($_POST)){
+
+    $nombre = trim($_POST['nombre']);
+    $email = trim($_POST['email']);
+    $mensaje = trim($_POST['mensaje']);
+
+    if(esNulo([$nombre, $email, $mensaje])){
+        $errors = "Debe completar todos los campos que contengan * ";
+    }
+
+    if (!esEmail($email)) {
+        $errors[] = "La direccion de correo no es valida";
+    }
+
+    if (count($errors) == 0) {
+        $id = mandaContacto([$nombre, $email, $mensaje], $conexion);
+        $errors[] = "Mensaje comunicado al servico de atencion al cliente";
+
+    }
+}
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +46,7 @@
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
 
-        a{
-            font-size: 30px;
-        } 
+
 
     </style>
 </head>
@@ -83,30 +110,33 @@
     </div>
 
     <main class="container">
+    <?php mostrarMensajes($errors); ?>
     <form class="formulario" >
 
         <h3 class=" mb-3 fw-normal item">Formulario de contacto</h3>
 
         <div class="form-group">
             <h5 for="floatingInput">Nombre <span>*</span></h5>
-            <input type="text" class="form-control " id="floatingInput" placeholder="Nombre" required> 
+            <input type="text" class="form-control " name="nombre" id="nombre" placeholder="Nombre" required> 
             <br>
 
             <h5 for="floatingInput">Correo Electronico <span>*</span></h5>
-            <input type="email" class="form-control" id="floatingInput" placeholder="Correo electronico" required> 
+            <input type="email" class="form-control" name="email" id="email" placeholder="Correo electronico" required> 
             <br>
 
             <h5 for="floatingInput">Mensaje <span>*</span></h5>
-            <textarea class="form-control" name="" id="" rows="3"></textarea>
+            <textarea class="form-control" name="mensaje" id="mensaje" rows="3"></textarea>
             <br>
 
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
-            <label class="form-check-label" for="flexCheckDefault">Aceptar Politica de Privacidad</label>
+            <input class="form-check-input" type="checkbox" value="" name="check-box" id="check-box" required>
+            <label class="form-check-label" for="flexCheckDefault" required>Aceptar Politica de Privacidad</label>
+            <br>
+            <br>
+            <i><b>Nota:</b> Los campos con asterisco (*) son obligatorios</i>
         </div>
 
-        <div class="">
 
-        </div>
+    
         <br>
 
 

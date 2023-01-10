@@ -49,33 +49,6 @@ if(!empty($_POST)){
         $id = registraUsuario([$usuario, $pass_hash, $token, $id], $conexion);
         $errors[] = "Usuario registrado";
 
-        //No me funciona la validacion del usuario a traves de correo 
-        /*
-        if ($id > 0) {
-
-            require 'clases/mailer.php';
-            $mailer = new Mailer();
-            $token = generaToken();
-            $url = SITE_URL . 'activa_cliente.php?id=' . $id . '&token=' . $token;
-            $asunto = "Activar cuenta - PropaGames";
-            $cuerpo = "Estimado $nombres: <br> Para continuar con el proceso de registro es indispensable de click en el siguiente link <a href='$url'>Activar cuenta</a>";
-
-            $pass_hash = password_hash($password, PASSWORD_DEFAULT);
-
-            if (!registraUsuario([$usuario, $pass_hash, $token, $id], $conexion)) {
-
-                if($mailer->enviarEmail($email, $asunto, $cuerpo)){
-                    echo "Para terminar el proceso de registro siga la sinstrucciones que le hemos enviado a la direccion de correo electronico $email";
-
-                    exit;
-                } 
-            } else {
-                $errors[] = "Error al registrar cliente";
-            }
-        } else {
-            $errors[] = "Error al registrar cliente";
-        }
-        */
     }
 }
 ?>
@@ -97,9 +70,7 @@ if(!empty($_POST)){
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
 
-        a{
-            font-size: 30px;
-        } 
+
     </style>
 </head>
 <body>

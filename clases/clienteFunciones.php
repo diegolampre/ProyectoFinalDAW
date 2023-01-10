@@ -101,3 +101,11 @@ function esActivo($usuario, $conexion){
     }
     return false;
 }
+
+function mandaContacto(array $datos, $conexion){
+    $sentenciaSQL = $conexion->prepare("INSERT INTO contacto (nombre, email, mensaje) VALUES (?,?,?,?)");
+    if($sentenciaSQL->execute($datos)){
+        return $conexion->lastInsertId();
+    }
+    return 0;
+}

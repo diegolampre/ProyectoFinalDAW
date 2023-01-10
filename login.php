@@ -98,9 +98,6 @@ if(!empty($_POST)){
                 <label for="password">Contraseña</label>
             </div>
 
-            <div class="col-12">
-                <a href="recupera.php">¿Olvidaste tu contraseña?</a>
-            </div>
 
             <div class="d-grid gap-3 col-12">
                 <button type="submit" class="btn btn-primary">Ingresar</button>
