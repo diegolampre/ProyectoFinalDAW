@@ -1,8 +1,8 @@
 
 <?php 
-include ("administrador/config/bd.php");
-include("administrador/config/config.php");
-include("clases/clienteFunciones.php");
+include ("../config/bd.php");
+include("../config/config.php");
+include("../clases/clienteFunciones.php");
 
 
 
@@ -62,15 +62,13 @@ if(!empty($_POST)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
-
-
     </style>
 </head>
 <body>
@@ -196,7 +194,7 @@ if(!empty($_POST)){
         
         function existeUsuario(usuario){
 
-            let url = "clases/clienteAjax.php"
+            let url = "../clases/clienteAjax.php"
             let formData = new FormData()
             formData.append("action", "existeUsuario")
             formData.append("usuario", usuario)
@@ -219,7 +217,7 @@ if(!empty($_POST)){
 
         function existeEmail(email){
 
-            let url = "clases/clienteAjax.php"
+            let url = "../clases/clienteAjax.php"
             let formData = new FormData()
             formData.append("action", "existeEmail")
             formData.append("email", email)

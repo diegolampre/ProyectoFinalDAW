@@ -1,7 +1,7 @@
 <?php
-require '../administrador/config/bd.php';
-require '../administrador/config/config.php';
-require '../administrador/config/database.php';
+require '../config/bd.php';
+require '../config/config.php';
+require '../config/database.php';
 
 
 $json = file_get_contents('php://input');

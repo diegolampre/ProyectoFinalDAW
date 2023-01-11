@@ -1,5 +1,31 @@
-<?php include("administrador/config/config.php")  ?>
-<?php include ("administrador/config/bd.php"); ?>
+
+<?php 
+include ("../config/bd.php");
+include("../config/config.php");
+include("../clases/clienteFunciones.php");
+
+
+
+
+$errors = [];
+
+if(!empty($_POST)){
+
+    $usuario = trim($_POST['usuario']);
+    $password = trim($_POST['password']);
+
+
+    if(esNulo([ $usuario, $password])){
+        $errors = "Debe completar todos los campos que contengan * ";
+    }
+    
+    if (count($errors) == 0) {
+        $errors[] = login($usuario, $password, $conexion);
+    }
+
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,18 +35,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
-    <style>
-        @font-face {
-            font-family:letra; 
-            src: url(../fuentes/Oswald/Oswald.ttf)
-        }
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
 
-        a{
-            font-size: 30px;
-        } 
-    </style>
 </head>
 <body>
 
@@ -52,15 +69,9 @@
                     <a href="registro.php" class="btn btn-primary " style="margin: 2px ; ">
                         Registro 
                     </a>
-                    <?php if(isset($_SESSION['user_id'])){ ?>
-                        <a href="" class="btn btn-primary " style="margin: 2px ;">
-                            <?php echo $_SESSION['user_name']; ?>
-                        </a>
-                    <?php } else {?>
-                        <a href="login.php" class="btn btn-primary " style="margin: 2px ;">
-                            Ingresar
-                        </a>
-                    <?php } ?>
+                    <a href="login.php" class="btn btn-primary " style="margin: 2px ; width: 177px">
+                        Inicio de sesion 
+                    </a>
 
                     <a href="checkout.php" class="btn btn-primary" style="margin: 2px; ">
                         Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart; ?></span>
@@ -70,27 +81,41 @@
         </div>
     </header>
 
-    <div class="container">
-        <br>
-        <div class="row">
 
-    <div class="jumbotron">
-        <h1 class="display-3">Nosotros</h1>
-        <hr class="my-2">
-            <p class="lead">Hola somos un grupo de personas que se dedican a la venta de videojuegos de manera online</p>
+    <main class="form-login m-auto pt-4">
+        <h2>Iniciar sesion</h2>
+
+        <?php mostrarMensajes($errors) ?>
+
+        <form class="row g-3" action="login.php" method="post" autocomplete="off">
+            <div class="form-floating">
+                <input class="form-control" type="text" name="usuario" id="usuario" placeholder="Usuario" required>
+                <label for="usuario">Usuario</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control" type="password" name="password" id="password" placeholder="Contraseña" required>
+                <label for="password">Contraseña</label>
+            </div>
 
 
+            <div class="d-grid gap-3 col-12">
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+            </div>
 
-    </div>
+            <hr>
 
+            <div class="col-12">¿No tiene cuenta?
+                <a href="registro.php">Registrate aqui</a>
+            </div>
+        </form>
+    </main>
 
-    </div>
-    </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
 
-    
-</body>
-</html>
+
+
+<?php include("template/pie.php") ?>

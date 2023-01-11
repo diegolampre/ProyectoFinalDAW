@@ -2,9 +2,9 @@
 <?php
 
 
-require 'administrador/config/config.php';
-require 'administrador/config/bd.php';
-include 'clases/clienteFunciones.php';
+require '../config/config.php';
+require '../config/bd.php';
+include '../clases/clienteFunciones.php';
 
 
 $productos = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
@@ -43,17 +43,14 @@ if($productos != null){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
 
-        a{
-            font-size: 30px;
-        } 
     </style>
 </head>
 <body>
@@ -219,11 +216,11 @@ $totalPaypal = quitar($total);
         },
 
         onApprove: function(data, actions){
-            let url = 'clases/captura.php'
+            let url = '../clases/captura.php'
             actions.order.capture().then(function (detalles){
                 console.log(detalles)
 
-                let url = 'clases/captura.php'
+                let url = '../clases/captura.php'
 
                 return fetch(url,{
                     method: 'post',

@@ -1,10 +1,10 @@
 
-<?php include ("administrador/config/bd.php"); 
+<?php include ("../config/bd.php"); 
     $sentenciaSQL = $conexion->prepare("SELECT * FROM videojuegos");
     $sentenciaSQL->execute();
     $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<?php include("administrador/config/config.php")  ?>
+<?php include("../config/config.php")  ?>
 <?php
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -44,17 +44,13 @@ if ($id == '' || $token == ''){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
-
-        a{
-            font-size: 30px;
-        } 
     </style>
 </head>
 <body>
@@ -115,7 +111,7 @@ if ($id == '' || $token == ''){
     <div class="container">
         <div class="row">
             <div class="col-md-6 order-md-1">
-                <img src="img/<?php echo $imagen;?>" alt="">
+                <img src="../img/<?php echo $imagen;?>" alt="">
             </div>
             <div class="col-md-6 order-md-2">
                 <h1><?php echo $nombre; ?></h1>
@@ -158,7 +154,7 @@ if ($id == '' || $token == ''){
 
 <script>
     function addProducto(id,token){
-        let url= 'clases/carrito.php';
+        let url= '../clases/carrito.php';
         let formData = new FormData()
         formData.append('id', id)
         formData.append('token', token)
@@ -180,7 +176,7 @@ if ($id == '' || $token == ''){
 
 <script>
     function comprarAhora(id,token){
-        let url= 'clases/carrito.php';
+        let url= '../clases/carrito.php';
         let formData = new FormData()
         formData.append('id', id)
         formData.append('token', token)
@@ -195,9 +191,9 @@ if ($id == '' || $token == ''){
                 let elemento = document.getElementById("num_cart")
                 elemento.innerHTML = data.numero
                 
-            }location.href="pago.php";
+            }location.href="checkout.php";
         })
-        location.href="pago.php";
+
 
     }
 </script>

@@ -1,8 +1,8 @@
 
 <?php
 //Conexion base de datos
-require 'administrador/config/config.php';
-require 'administrador/config/bd.php';
+require '../config/config.php';
+require '../config/bd.php';
 
 
 $productos = isset($_SESSION['carrito']['productos']) ? $_SESSION['carrito']['productos'] : null;
@@ -36,8 +36,8 @@ if($productos != null){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
@@ -214,7 +214,7 @@ if($productos != null){
 
  //Actualizar cantidad del producto, mostrando sumatorios
     function actualizaCantidad(cantidad,id){
-        let url= 'clases/actualizar_carrito.php';
+        let url= '../clases/actualizar_carrito.php';
         let formData = new FormData()
         formData.append('action', 'agregar')  
         formData.append('id', id)  
@@ -253,7 +253,7 @@ if($productos != null){
         let botonElimina = document.getElementById('btn-elimina')
         let id = botonElimina.value
 
-        let url= 'clases/actualizar_carrito.php'
+        let url= '../clases/actualizar_carrito.php'
         let formData = new FormData()
         formData.append('id', id)
         formData.append('action', 'eliminar')    

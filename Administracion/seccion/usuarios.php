@@ -16,7 +16,7 @@ $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 //echo $txtImagen. "<br/>";
 //echo $accion. "<br/>";
 
-include("../config/bd.php"); 
+include("../../config/bd.php"); 
 
 switch($accion){
     case "Agregar";

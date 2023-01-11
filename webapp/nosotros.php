@@ -1,33 +1,5 @@
-<?php 
-include("administrador/config/config.php");
-include("clases/clienteFunciones.php");
-include ("administrador/config/bd.php"); 
-
-
-if(isset($_POST['enviar'])) {
-    if (strlen($_POST['nombre']) >= 1 && strlen($_POST['email']) < 1 && strlen($_POST['mensaje']) < 1 ){
-        $nombre = ($_POST['nombre']);
-        $email = ($_POST['email']);
-        $mensaje = ($_POST['mensaje']);
-        $consulta = "INSERT INTO contacto( nombre, email, mensaje) VALUES ('$nombre','$email','$mensaje')";
-        $resultado = mysqli_query($conex, $consulta);
-        if($resultado){
-            ?>
-            <h3 class="correcto">Se ha mandado tu consulta al soporte tecnico</h3>
-            <?php 
-        }else {
-            ?>
-            <h3 class="incorrecto">Completa todos los campos obligatorios</h3>
-            <?php
-        }
-    }
-}
-
-
-
-
-
-?>
+<?php include("../config/config.php")  ?>
+<?php include ("../config/bd.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,16 +9,13 @@ if(isset($_POST['enviar'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropaGames</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
         @font-face {
             font-family:letra; 
             src: url(../fuentes/Oswald/Oswald.ttf)
         }
-
-
-
     </style>
 </head>
 <body>
@@ -97,62 +66,27 @@ if(isset($_POST['enviar'])) {
         </div>
     </header>
 
-
     <div class="container">
         <br>
         <div class="row">
-            <div class="jumbotron">
-                <h1 class="display-3">Contacto</h1>
-                <p class="lead">A traves de este apartado podras contactar con el servicio al cliente.</p>
-            </div>
-        </div>
+
+    <div class="jumbotron">
+        <h1 class="display-3">Nosotros</h1>
+        <hr class="my-2">
+            <p class="lead">Hola somos un grupo de personas que se dedican a la venta de videojuegos de manera online</p>
+
+
+
     </div>
 
-    <main class="container">
 
-    <form class="formulario" method="post" >
+    </div>
+    </div>
 
-        <h3 class=" mb-3 fw-normal item">Formulario de contacto</h3>
-
-        <div class="form-group" method= "post" autocomplete="off">
-
-            <div>
-            <h5 for="floatingInput">Nombre <span>*</span></h5>
-            <input type="text" class="form-control " name="nombre" id="nombre" placeholder="Nombre" required> 
-            </div>
-            <br>
-
-            <div>
-            <h5 for="floatingInput">Correo Electronico <span>*</span></h5>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Correo electronico" required> 
-            </div>
-            <br>
-
-            <div>
-            <h5 for="floatingInput">Mensaje <span>*</span></h5>
-            <textarea class="form-control" name="mensaje" id="mensaje" rows="3"></textarea>
-            </div>
-            <br>
-
-            <div>
-            <input class="form-check-input" type="checkbox" value="" name="text-area" id="text-area" required>
-            <label class="form-check-label" for="flexCheckDefault" required>Aceptar Politica de Privacidad</label>
-            </div>
-            <br>
-            <br>
-            <i><b>Nota:</b> Los campos con asterisco (*) son obligatorios</i>
-
-            <div>
-                <button class=" btn btn-lg btn-primary" name="enviar" type="submit">Enviar</button>
-            </div>
-        </div> 
-        <br>
-</form>
-
-
-    </main>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
 
+    
 </body>
 </html>

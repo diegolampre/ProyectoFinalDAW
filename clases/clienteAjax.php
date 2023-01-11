@@ -1,6 +1,6 @@
 <?php
 
-require_once '../administrador/config/bd.php';
+require_once '../config/bd.php';
 require_once 'clienteFunciones.php';
 
 $datos = [];

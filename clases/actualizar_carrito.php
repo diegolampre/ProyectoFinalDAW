@@ -1,14 +1,14 @@
 <?php
 
 
-require '../administrador/config/config.php';
-require '../administrador/config/bd.php';
+require '../config/config.php';
+require '../config/bd.php';
 
 $sentenciaSQL = $conexion->prepare("SELECT id, nombre, precio, descuento, imagen FROM videojuegos WHERE activo=1");
 $sentenciaSQL->execute();
 $listaVideojuegos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-require '../administrador/config/database.php';
+require '../config/database.php';
 
 
 if(isset($_POST['action'])){
